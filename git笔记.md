@@ -63,5 +63,62 @@ $ git commit -m "add 3 files."
 ```
 
 ## 时光穿梭机
++ 要随时掌握工作区的状态，使用git status命令。
++ 如果git status告诉你有文件被修改过，用git diff可以查看修改内容。
+
+### 版本回退
++ git log命令显示从最近到最远的提交日志，我们可以看到3次提交，如果嫌输出信息太多，看得眼花缭乱的，可以试试加上--pretty=oneline参数
++ $ git reset --hard HEAD^ 回到上一个版本，上一个版本就是HEAD^，上上一个版本就是HEAD^^，当然往上100个版本写100个^比较容易数不过来，所以写成HEAD~100。
++ $ git reset --hard <id> 回退至指定版本
++ git reflog 可查看回滚操作记录
 
 
+### 工作区-暂存区
++ 工作区（Working Directory）
+就是你在电脑里能看到的目录，比如我的learngit文件夹就是一个工作区
+
++ 版本库（Repository）
+工作区有一个隐藏目录.git，这个不算工作区，而是Git的版本库。
+Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。
+
+### 管理修改
++ 每次修改，如果不用git add到暂存区，那就不会加入到commit中。
+
+### 撤销修改
++ 场景1：当你改乱了工作区某个文件的内容，想直接丢弃工作区的修改时，用命令git checkout -- file / git restore <file>
+
++ 场景2：当你不但改乱了工作区某个文件的内容，还添加到了暂存区时，想丢弃修改，分两步，第一步用命令git reset HEAD <file>，就回到了场景1，第二步按场景1操作。 或者使用 git restore --staged <file>，然后再用git restore <file>
+
++ 场景3：已经提交了不合适的修改到版本库时，想要撤销本次提交，参考版本回退一节，不过前提是没有推送到远程库
+### 删除文件
++ 命令git rm用于删除一个文件。如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容
+
+## 远程仓库
+### 添加远程库
+```
+#1、添加库
+$ git remote add origin <地址>
+例：$ git remote add origin git@github.com:kai648846760/pytest--Chinese.git
+
+#2、本地库的所有内容推送到远程库上
+$ git push -u origin master
+#此后推送，只需要输入git push origin master即可
+
+```
+### 远程库克隆
++ 要克隆一个仓库，首先必须知道仓库的地址，然后使用git clone命令克隆。
+
++ Git支持多种协议，包括https，但ssh协议速度最快。
+
+## 创建于合并分支
++ 查看分支：git branch
+
++ 创建分支：git branch <name>
+
++ 切换分支：git checkout <name>或者git switch <name>
+
++ 创建+切换分支：git checkout -b <name>或者git switch -c <name>
+
++ 合并某分支到当前分支：git merge <name>
+
++ 删除分支：git branch -d <name>
